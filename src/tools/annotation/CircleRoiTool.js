@@ -47,6 +47,7 @@ export default class CircleRoiTool extends BaseAnnotationTool {
       configuration: {
         renderDashed: false,
         hideHandlesIfMoving: false,
+        createTextBoxContent: _createTextBoxContent,
       },
     };
 
@@ -71,6 +72,7 @@ export default class CircleRoiTool extends BaseAnnotationTool {
       visible: true,
       active: true,
       color: undefined,
+      text: undefined,
       invalidated: true,
       handles: {
         start: {
@@ -188,7 +190,7 @@ export default class CircleRoiTool extends BaseAnnotationTool {
     const modality = seriesModule.modality;
     const hasPixelSpacing = rowPixelSpacing && colPixelSpacing;
 
-    draw(newContext, context => {
+    draw(newContext, (context) => {
       // If we have tool data for this element, iterate over each set and draw it
       for (let i = 0; i < toolData.data.length; i++) {
         const data = toolData.data[i];
@@ -258,17 +260,19 @@ export default class CircleRoiTool extends BaseAnnotationTool {
           Object.assign(data.handles.textBox, defaultCoords);
         }
 
-        const textBoxAnchorPoints = handles =>
+        const textBoxAnchorPoints = (handles) =>
           _findTextBoxAnchorPoints(handles.start, handles.end);
 
-        const textBoxContent = _createTextBoxContent(
-          context,
-          image.color,
-          data.cachedStats,
-          modality,
-          hasPixelSpacing,
-          this.configuration
-        );
+        const textBoxContent =
+          data.text ||
+          this._configuration.createTextBoxContent(
+            context,
+            image.color,
+            data.cachedStats,
+            modality,
+            hasPixelSpacing,
+            this.configuration
+          );
 
         data.unit = _getUnit(modality, this.configuration.showHounsfieldUnits);
 
@@ -402,7 +406,7 @@ function _createTextBoxContent(
   }
 
   textLines.push(_formatArea(area, hasPixelSpacing));
-  otherLines.forEach(x => textLines.push(x));
+  otherLines.forEach((x) => textLines.push(x));
 
   return textLines;
 }
