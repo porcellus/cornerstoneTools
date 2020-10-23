@@ -15,6 +15,7 @@ import ScaleOverlayTool from './ScaleOverlayTool.js';
 import StackScrollMouseWheelTool from './StackScrollMouseWheelTool.js';
 import StackScrollMultiTouchTool from './StackScrollMultiTouchTool.js';
 import StackScrollTool from './StackScrollTool.js';
+import TextOverlayTool from './TextOverlayTool';
 import WwwcRegionTool from './WwwcRegionTool.js';
 import WwwcTool from './WwwcTool.js';
 import ZoomMouseWheelTool from './ZoomMouseWheelTool.js';
@@ -40,6 +41,7 @@ export {
   StackScrollMouseWheelTool,
   StackScrollMultiTouchTool,
   StackScrollTool,
+  TextOverlayTool,
   WwwcRegionTool,
   WwwcTool,
   ZoomMouseWheelTool,
