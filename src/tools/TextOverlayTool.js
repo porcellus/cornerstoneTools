@@ -1,7 +1,7 @@
 import BaseTool from './base/BaseTool.js';
-import { getNewContext, draw, setShadow } from './../../drawing/index.js';
-import drawTextBox from './../../drawing/drawTextBox.js';
-import { getToolState } from './../../stateManagement/toolState.js';
+import { getNewContext, draw, setShadow } from '../drawing/index.js';
+import drawTextBox from '../drawing/drawTextBox.js';
+import { getToolState } from '../stateManagement/toolState.js';
 
 /**
  * @public
@@ -48,16 +48,15 @@ export default class TextOverlayTool extends BaseTool {
 
       const color = data.color || this._configuration.defaultColor;
 
-      draw(context, (context) => {
+      draw(context, context => {
         setShadow(context, config);
-
-        data.handles.end.boundingBox = drawTextBox(
+        data.boundingBox = drawTextBox(
           context,
           data.text,
           data.x,
           data.y,
           color,
-          options
+          data.options || {}
         );
       });
     }

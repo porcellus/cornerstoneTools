@@ -190,7 +190,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
     const modality = seriesModule.modality;
     const hasPixelSpacing = rowPixelSpacing && colPixelSpacing;
 
-    draw(context, (context) => {
+    draw(context, context => {
       // If we have tool data for this element - iterate over each set and draw it
       for (let i = 0; i < toolData.data.length; i++) {
         const data = toolData.data[i];
@@ -250,7 +250,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
           Object.assign(data.handles.textBox, defaultCoords);
         }
 
-        const textBoxAnchorPoints = (handles) =>
+        const textBoxAnchorPoints = handles =>
           _findTextBoxAnchorPoints(handles.start, handles.end);
 
         const textBoxContent =
@@ -539,7 +539,7 @@ function _createTextBoxContent(
   }
 
   textLines.push(_formatArea(area, hasPixelSpacing));
-  otherLines.forEach((x) => textLines.push(x));
+  otherLines.forEach(x => textLines.push(x));
 
   return textLines;
 }

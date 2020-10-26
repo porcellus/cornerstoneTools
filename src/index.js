@@ -361,6 +361,7 @@ export {
   StackScrollMouseWheelTool,
   StackScrollMultiTouchTool,
   StackScrollTool,
+  TextOverlayTool,
   WwwcRegionTool,
   WwwcTool,
   ZoomMouseWheelTool,

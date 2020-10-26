@@ -252,7 +252,7 @@ export default class LengthTool extends BaseAnnotationTool {
     function textBoxText(annotation, rowPixelSpacing, colPixelSpacing) {
       const measuredValue = _sanitizeMeasuredValue(annotation.length);
 
-      // measured value is not defined, return empty string
+      // Measured value is not defined, return empty string
       if (!measuredValue) {
         return '';
       }
