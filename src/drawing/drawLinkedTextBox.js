@@ -20,7 +20,7 @@ import drawLink from './drawLink.js';
  * @param {boolean} yCenter - Vertically centers the text if true.
  * @returns {undefined}
  */
-export default function(
+export default function (
   context,
   element,
   textBox,
@@ -57,7 +57,7 @@ export default function(
     color,
     options
   );
-  if (textBox.hasMoved) {
+  if (textBox.hasMoved && !textBox.hideLink) {
     // Identify the possible anchor points for the tool -> text line
     const linkAnchorPoints = textBoxAnchorPoints(handles).map(h =>
       cornerstone.pixelToCanvas(element, h)
