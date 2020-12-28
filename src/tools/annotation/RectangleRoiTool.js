@@ -210,7 +210,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
 
         setShadow(context, this.configuration);
 
-        const rectOptions = { color };
+        const rectOptions = { ...data.rectOptions, color };
 
         if (renderDashed) {
           rectOptions.lineDash = lineDash;

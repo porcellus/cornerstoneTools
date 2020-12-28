@@ -57,7 +57,7 @@ export default function(
     color,
     options
   );
-  if (textBox.hasMoved) {
+  if (textBox.hasMoved && !textBox.hideLink) {
     // Identify the possible anchor points for the tool -> text line
     const linkAnchorPoints = textBoxAnchorPoints(handles).map(h =>
       cornerstone.pixelToCanvas(element, h)
