@@ -93,6 +93,7 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
         textBox: {
           active: false,
           hasMoved: false,
+          hideLink: false,
           movesIndependently: false,
           drawnIndependently: true,
           allowedOutsideImage: true,
@@ -210,7 +211,11 @@ export default class RectangleRoiTool extends BaseAnnotationTool {
 
         setShadow(context, this.configuration);
 
-        const rectOptions = { ...data.rectOptions, color };
+        const rectOptions = Object.assign(
+          { color },
+          this.configuration.rectOptions,
+          data.rectOptions
+        );
 
         if (renderDashed) {
           rectOptions.lineDash = lineDash;
