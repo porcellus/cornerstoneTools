@@ -1,10 +1,13 @@
 const isMergeableObject = val => {
   const nonNullObject = val && typeof val === 'object';
 
+  const stringRep = Object.prototype.toString.call(val);
+
   return (
     nonNullObject &&
-    Object.prototype.toString.call(val) !== '[object RegExp]' &&
-    Object.prototype.toString.call(val) !== '[object Date]'
+    stringRep !== '[object RegExp]' &&
+    stringRep !== '[object Date]' &&
+    stringRep !== '[object Set]'
   );
 };
 

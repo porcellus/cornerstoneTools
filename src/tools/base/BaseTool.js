@@ -33,7 +33,6 @@ class BaseTool {
      * Merge default props with custom props
      */
     this.initialConfiguration = deepmerge(defaultProps, props);
-
     const {
       name,
       strategies,

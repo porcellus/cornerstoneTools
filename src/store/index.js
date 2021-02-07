@@ -30,6 +30,10 @@ export const state = {
 };
 
 export const getters = {
+  mouseWheelTools: () =>
+    state.tools.filter(tool =>
+      tool.supportedInteractionTypes.includes('MouseWheel')
+    ),
   mouseTools: () =>
     state.tools.filter(tool =>
       tool.supportedInteractionTypes.includes('Mouse')

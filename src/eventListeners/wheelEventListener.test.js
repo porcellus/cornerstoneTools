@@ -80,6 +80,7 @@ describe('eventListeners/wheelEventListener.js', () => {
       'viewport',
       'image',
       'direction',
+      'modifier',
       'spinX',
       'spinY',
       'pixelX',

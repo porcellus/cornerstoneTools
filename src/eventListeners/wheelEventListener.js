@@ -41,8 +41,17 @@ function wheelEventHandler(evt) {
   const { spinX, spinY, pixelX, pixelY } = normalizeWheel(evt);
   const direction = spinY < 0 ? -1 : 1;
 
+  const modifier = [
+    evt.altKey ? 'alt' : '',
+    evt.ctrlKey ? 'ctrl' : '',
+    evt.shiftKey ? 'shift' : '',
+  ]
+    .filter(x => Boolean(x))
+    .join('-');
+
   const mouseWheelData = {
     element,
+    modifier,
     viewport: external.cornerstone.getViewport(element),
     detail: evt,
     image: enabledElement.image,

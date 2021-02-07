@@ -36,7 +36,7 @@ const logger = getLogger('store:setToolMode');
  * @param {(string[])} interactionTypes
  * @returns {undefined}
  */
-const setToolActiveForElement = function(
+const setToolActiveForElement = function (
   element,
   toolName,
   options,
@@ -110,7 +110,7 @@ function _setToolCursorIfPrimary(element, options, tool) {
  * @param {(string[])} interactionTypes
  * @returns {undefined}
  */
-const setToolActive = function(toolName, options, interactionTypes) {
+const setToolActive = function (toolName, options, interactionTypes) {
   _trackGlobalToolModeChange('active', toolName, options, interactionTypes);
   store.state.enabledElements.forEach(element => {
     setToolActiveForElement(element, toolName, options, interactionTypes);
@@ -353,6 +353,50 @@ function _resolveInputConflicts(element, tool, options, interactionTypes) {
       setToolPassiveForElement(element, t.name);
     }
   });
+}
+
+/**
+ * Resolves conflicting active tools when activating a tool for mouse wheel interaction
+ * @private
+ * @function _resolveMouseInputConflicts
+ *
+ * @param {Object} tool
+ * @param {HTMLElement} element
+ * @param {(Object|number)} options
+ * @returns {undefined}
+ */
+function _resolveMouseWheelInputConflicts(tool, element, options) {
+  const allowedModifiers = _getNormalizedOptions(options).allowedModifiers;
+  const hasAllowedModifiers =
+    Array.isArray(allowedModifiers) && allowedModifiers.length > 0;
+
+  if (!hasAllowedModifiers) {
+    return;
+  }
+
+  const activeToolWithMatchingAllowedModifiers = store.state.tools.find(
+    t =>
+      t.element === element &&
+      t.mode === 'active' &&
+      t.options.isMouseWheelActive === true &&
+      Array.isArray(t.options.allowedModifiers) &&
+      t.options.allowedModifiers.some(v => allowedModifiers.includes(v))
+  );
+
+  if (activeToolWithMatchingAllowedModifiers) {
+    // Remove collisions
+    activeToolWithMatchingAllowedModifiers.options.allowedModifiers = activeToolWithMatchingAllowedModifiers.options.allowedModifiers.filter(
+      mask => !allowedModifiers.includes(mask)
+    );
+
+    // If no remaining bindings, set inactive
+    if (
+      activeToolWithMatchingAllowedModifiers.options.allowedModifiers.length ===
+      0
+    ) {
+      activeToolWithMatchingAllowedModifiers.options.isMouseWheelActive = false;
+    }
+  }
 }
 
 /**
@@ -636,7 +680,7 @@ function _determineStringBindings(toolName, options, interactionTypes) {
 
 const _inputResolvers = {
   Mouse: _resolveMouseInputConflicts,
-  MouseWheel: _resolveGenericInputConflicts.bind(this, 'MouseWheel'),
+  MouseWheel: _resolveMouseWheelInputConflicts,
   Touch: _resolveTouchInputConflicts,
   TouchPinch: _resolveGenericInputConflicts.bind(this, 'TouchPinch'),
   TouchRotate: _resolveGenericInputConflicts.bind(this, 'TouchRotate'),
